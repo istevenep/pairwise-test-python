@@ -1,6 +1,14 @@
-def chisquare(input, col1, col2):
-    """ 
+"""
+This module provides functions to perform pairwise tests on a pandas DataFrame.
+"""
 
+import itertools
+import pandas as pd
+from scipy.stats import chi2_contingency, fisher_exact
+
+
+def chisquare(input, col1, col2):
+    """
     Given a a pandas dataframe (input) and the name of 2 columns (col1, col2), computes chi2 test for each pairwise combination of col1 and returns p value
     col1 must be the fixed variable (es. Group)
 
@@ -9,15 +17,11 @@ def chisquare(input, col1, col2):
         col1: name of the column with the fixed variable (es. Group)
         col2: name of the column with the dependent variable (es. Sex)
 
-    Prints: 
+    Prints:
         chi2 square p value for each pairwise combinations of col1
     Returns:
         pandas DataFrame with columns 'Variable1', 'Variable2', and 'p-value'
     """
-    import itertools
-    import pandas as pd
-    from scipy.stats import chi2_contingency
-
     series1 = input[str(col1)]
     series2 = input[str(col2)]
 
@@ -42,9 +46,8 @@ def chisquare(input, col1, col2):
     return pd.DataFrame(results, columns=['Variable1', 'Variable2', 'p-value'])
 
 
-def fisher_test(input, col1, col2):
-    """ 
-
+def fisher(input, col1, col2):
+    """
     Given a a pandas dataframe (input) and the name of 2 columns (col1, col2), computes Fisher's exact test for each pairwise combination of col1 and returns p value
     col1 must be the fixed variable (es. Group)
 
@@ -53,15 +56,11 @@ def fisher_test(input, col1, col2):
         col1: name of the column with the fixed variable (es. Group)
         col2: name of the column with the dependent variable (es. Sex)
 
-    Prints: 
+    Prints:
         Fisher's exact test p value for each pairwise combinations of col1
     Returns:
         pandas DataFrame with columns 'Variable1', 'Variable2', and 'p-value'
     """
-    import itertools
-    import pandas as pd
-    from scipy.stats import fisher_exact
-
     series1 = input[str(col1)]
     series2 = input[str(col2)]
 
@@ -84,4 +83,4 @@ def fisher_test(input, col1, col2):
         results.append([contingency.columns[a], contingency.columns[b], p])
         print("\n")
 
-    return pd.DataFrame(results, columns=['Variable1', 'Variable2
+    return pd.DataFrame(results, columns=['Variable1', 'Variable2', 'p-value'])
